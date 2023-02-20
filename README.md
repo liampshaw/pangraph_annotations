@@ -30,7 +30,7 @@ This adds pancontig information as an attribute to each annotated feature e.g.
 CP007265.1	Genbank	gene	1455	2555	.	+	.	ID=gene-BU34_00010;Name=BU34_00010;gbkey=Gene;gene_biotype=protein_coding;locus_tag=BU34_00010;pancontigs=QSHBRKARJW-_1
 ```
 
-The pancontig string includes the ID, the strand, and the occurrence of the pancontig in the specified genome (here, the first occurrence of QSHBRKARJW and the block is on the negative strand).
+The pancontig string in the attributes (last column of gff) `pancontigs=QSHBRKARJW-_1` includes the ID, the strand, and the occurrence of the pancontig in the specified genome (here, the first occurrence of QSHBRKARJW and the block is on the negative strand).
 
 (NOT DONE) Go the other way, and create a gff from a fasta file of pancontigs and a set of annotations i.e. a gff relative to pancontigs in a particular strain
 
