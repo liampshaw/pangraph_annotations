@@ -220,7 +220,10 @@ def main():
     if args.mode=="keep_original":
         output_gff_list = glued_gff.new_gff.gff_to_df().values.tolist()
     elif args.mode=="make_new":
+        # IN PROGRESS
         # To do: add a proper header string with sequence regions as pancontigs
+        # Need to output a new file of the pancontigs with *actual sequences* in the strain
+        # so can inspect e.g. in IGV and match up
         output_gff_list = glued_gff.pancontig_gff.gff_to_df().values.tolist()
         if args.output_gff!="":
             write_gff(output_gff_list, args.output_gff, header_string = gff_header_string)
