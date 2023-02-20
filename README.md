@@ -35,7 +35,6 @@ The pancontig string includes the ID, the strand, and the occurrence of the panc
 (NOT DONE) Go the other way, and create a gff from a fasta file of pancontigs and a set of annotations i.e. a gff relative to pancontigs in a particular strain
 
 ```
-PANCONTIG	CP007265.1	gene    10	1110   .       +       .             ID=gene-BU34_00010;Name=BU34_00010;gbkey=Gene;gene_biotype=protein_coding;locus_tag=BU34_00010
+PANCONTIG	CP007265.1	gene    10	1110   .       +       .             ID=gene-BU34_00010
 ```
 
-```
