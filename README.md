@@ -36,7 +36,7 @@ Output files will have the original header with an additional header-string e.g.
 
 ## Example application
 
-Our example data are two *E. coli* genomes: [GCA_000597845.1](https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/597/845/GCA_000597845.1_ASM59784v1) and [GCA_000599625.1](https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/599/625/GCA_000599625.1_ASM59962v1/). 
+Our example data are two *Escherichia coli* genomes: [GCA_000597845.1](https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/597/845/GCA_000597845.1_ASM59784v1) and [GCA_000599625.1](https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/599/625/GCA_000599625.1_ASM59962v1/). 
 
 Their genomes are in `data/input_genomes.fa`. Also there are GFF3 annotations for `GCA_000597845.1`. 
 
@@ -131,7 +131,7 @@ echo $fragmented / $total | bc -l
 
 ### Possible reasons for fragmentation
 
-In fact, the gene we investigated above `gene-BU34_30355` is a 23S ribosomal RNA gene. **E. coli** has multiple copies of this gene in different genomic locations.
+In fact, the gene we investigated above `gene-BU34_30355` is a 23S ribosomal RNA gene. *E. coli* has [seven copies](https://www.pnas.org/doi/10.1073/pnas.96.5.1971#:~:text=Each%20of%20the%20seven) of the 23S rRNA gene in different genomic locations, each time as part of the *rrn* operon.
 
 If we now search for all ribosomal RNA genes (rRNA), we see that over half of theme (15/24, 62.5%) are fragmented:
 
