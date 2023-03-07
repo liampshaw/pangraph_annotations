@@ -113,7 +113,7 @@ def rename_id(gff):
 
 
 def add_pancontig_info(pangraph_map, strain: str, gff_entry):
-    """given a gff entry, returns new gff entries mapped onto blocks of pangraph"""
+    """given a gff entry, adds panconting information"""
     blocks_for_gene_ids, blocks_for_gene_rel_pos, blocks_for_gene_occurrences = list(pangraph_map[strain].interval_to_blocks(gff_entry.start, gff_entry.end))
     new_gff_entries = []
     pancontigInfo = ",".join([blocks_for_gene_ids[i]+{True: "+", False: "-"}[blocks_for_gene_occurrences[i][2]]+
@@ -136,14 +136,15 @@ def add_pancontigs_to_gff(pangraph_map, original_gff):
     return(GFF(new_gff_list))
 
 def project_annotation_onto_pancontig(pangraph_map, strain: str, gff_entry):
-    """given a gff entry, returns new gff entries mapped onto blocks of pangraph"""
+    """given a gff entry, returns new gff entries mapped onto pancontigs (blocks) of pangraph"""
     blocks_for_gene_ids, blocks_for_gene_rel_pos, blocks_for_gene_occurrences = list(pangraph_map[strain].interval_to_blocks(gff_entry.start, gff_entry.end))
     new_gff_entries = []
     if len(blocks_for_gene_ids)==1: # if only one block, entry is not fragmented across multiple blocks
         entry_type = gff_entry.type # Inherit entry type
         block_strand = {True: '+', False: '-'}[blocks_for_gene_occurrences[0][2]] 
         block_occurrence = blocks_for_gene_occurrences[0][1]
-        new_gff_entries.append(gffEntry([blocks_for_gene_ids[0], gff_entry.seqid, entry_type, gff_entry.start, gff_entry.end, gff_entry.score, gff_entry.strand, gff_entry.phase, \
+        # NEED TO: convert start/end of gene to pancontig coordinates
+        new_gff_entries.append(gffEntry([blocks_for_gene_ids[0], gff_entry.seqid, entry_type, blocks_for_gene_rel_pos[0][0], blocks_for_gene_rel_pos[0][1], gff_entry.score, gff_entry.strand, gff_entry.phase, \
                                     gff_entry.attributes+";pancontigID="+blocks_for_gene_ids[0]+";pancontigStrand="+block_strand+
                                     ";pancontigN="+str(block_occurrence)]))
     else: # otherwise, entry is fragmented across n>1 blocks
@@ -225,12 +226,12 @@ def main():
         # Need to output a new file of the pancontigs with *actual sequences* in the strain
         # so can inspect e.g. in IGV and match up
         output_gff_list = glued_gff.pancontig_gff.gff_to_df().values.tolist()
-        if args.output_gff!="":
-            write_gff(output_gff_list, args.output_gff, header_string = gff_header_string)
-        else:
-            print(gff_header_string)
-            for entry in output_gff_list:
-                print("\t".join([str(x) for x in entry]))
+    if args.output_gff!="":
+        write_gff(output_gff_list, args.output_gff, header_string = gff_header_string)
+    else:
+        print(gff_header_string)
+        for entry in output_gff_list:
+            print("\t".join([str(x) for x in entry]))
 
 
 
