@@ -16,9 +16,15 @@ conda activate pangraph_annotations
 
 ```
 # Add pancontigs as attributes to original gff
-python add_pancontigs_to_gff.py --pangraph {pangraph.json} --input_gff {genome.gff} --mode keep_original --output_gff {pancontigs_as_attributes.gff}
+python add_pancontigs_to_gff.py --pangraph {pangraph.json} \
+    --input_gff {genome.gff} \
+    --mode keep_original \
+    --output_gff {pancontigs_as_attributes.gff}
 # Add pancontigs as regions
-python add_pancontigs_to_gff.py --pangraph {pangraph.json} --input_gff {genome.gff} --mode make_new --output_gff {pancontigs_as_regions.gff}
+python add_pancontigs_to_gff.py --pangraph {pangraph.json}\
+    --input_gff {genome.gff} \
+    --mode make_new \
+    --output_gff {pancontigs_as_regions.gff}
 ```
 
 ## Example
@@ -36,7 +42,10 @@ pangraph build --circular data/input_genomes.fa > data/pangraph.json
 Then, we can then add the pancontig information 
 
 ```
-python add_pancontigs_to_gff.py --pangraph data/pangraph.json --input_gff data/GCA_000597845.1.gff --mode keep_original --output_gff pancontigs_as_attributes.gff
+python add_pancontigs_to_gff.py --pangraph data/pangraph.json \
+    --input_gff data/GCA_000597845.1.gff \
+    --mode keep_original \
+    --output_gff pancontigs_as_attributes.gff
 ```
 
 This adds pancontig information as an attribute to each annotated feature. Here is an example:
@@ -51,8 +60,10 @@ This 1540bp gene (`gene-BU34_30355`) has been fragmented across six pancontigs i
 If alternatively we wish to know the positions of the annotations on top of the pancontigs, we can use
 
 ```
-python add_pancontigs_to_gff.py --pangraph data/pangraph.json --input_gff data/GCA_000597845.1.gff --mode make_new --output_gff pancontigs_as_regions.gff
-
+python add_pancontigs_to_gff.py --pangraph data/pangraph.json\
+    --input_gff data/GCA_000597845.1.gff \
+    --mode make_new \
+    --output_gff pancontigs_as_regions.gff
 ```
 
 Our 1540bp gene (`gene-BU34_30355`) stretches across six pancontigs and so has been split into six lines. **This is an abuse of the GFF3 format so use with caution.**
@@ -82,4 +93,10 @@ In `pancontigs_as_regions.gff`:
 ```
 QSHBRKARJW      CP007265.1      gene    21756   23159   .       +       .       ID=gene-BU34_00005;pancontigID=QSHBRKARJW;pancontigStrand=-;pancontigN=1
 
+```
+
+We can see how many genes were fragmented with a quick command:
+
+```
+To add: command to count fragmented genes
 ```
