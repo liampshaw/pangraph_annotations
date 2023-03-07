@@ -112,7 +112,7 @@ awk '$3=="gene"' pancontigs_as_attributes.gff | sed -e 's/.*pancontigs=//g' | aw
 #    8 6
 ```
 
-The majority of the gene features in our chosen genome (`4549`) were on a single pancontig in the pangenome we built with `pangraph`. (This uses the fact that the `pancontigs` attribute is a comma-separated list and counts up how many items are in the list.)
+The majority of the gene features (4549/4649 ~ 97.8%) were mapped to a single pancontig in the pangenome we built with `pangraph` from the two strains. (This uses the fact that the `pancontigs` attribute is a comma-separated list and counts up how many items are in the list.)
 
 ```
 # What proportion of genes were split across more than one pancontig?
@@ -120,7 +120,7 @@ fragmented=$(awk '$3=="gene"' pancontigs_as_attributes.gff | sed -e 's/.*pancont
 total=$(awk '$3=="gene"' pancontigs_as_attributes.gff | wc -l)
 echo $fragmented / $total | bc -l
 # 0.0215 
-# i.e. ~2%
+# i.e. ~2.2%
 ```
 
 
