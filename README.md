@@ -21,6 +21,7 @@ python add_pancontigs_to_gff.py --pangraph {pangraph.json} \
     --mode keep_original \
     --output_gff {pancontigs_as_attributes.gff}
 # Add pancontigs as regions
+# WARNING: abuse of the GFF3 format 
 python add_pancontigs_to_gff.py --pangraph {pangraph.json}\
     --input_gff {genome.gff} \
     --mode make_new \
