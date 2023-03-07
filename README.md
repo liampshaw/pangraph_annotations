@@ -55,10 +55,10 @@ python add_pancontigs_to_gff.py --pangraph data/pangraph.json \
     --output_gff pancontigs_as_attributes.gff
 ```
 
-This adds pancontig information as an attribute to each annotated feature. Here is an example:
+This adds pancontig information as an attribute to each annotated feature. Here is a (simplified attributes) example from that output file of a gene that stretches across multiple pancontigs:
 
 ```
-CP007265.1  Genbank gene    4699050 4700590 .   -   .   ID=gene-BU34_30355;Name=BU34_30355;gbkey=Gene;gene_biotype=rRNA;locus_tag=BU34_30355;pancontigs=TVFWZRNOTJ-_6,DCKHVIHAKN-_6,LGQMDYQNWO-_7,WFWWUGUICI-_7,TZQFPNNGZQ+_7,FUBHNOVGNG+_7
+CP007265.1  Genbank gene    4699050 4700590 .   -   .   ID=gene-BU34_30355;pancontigs=TVFWZRNOTJ-_6,DCKHVIHAKN-_6,LGQMDYQNWO-_7,WFWWUGUICI-_7,TZQFPNNGZQ+_7,FUBHNOVGNG+_7
 ```
 
 This 1540bp gene (`gene-BU34_30355`) has been fragmented across six pancontigs in the genome. The pancontig string in the attributes (last column of gff) gives a comma-separated list of these pancontigs with the ID, strand, and occurrence of each pancontig e.g. `TVFWZRNOTJ-_6`: pancontig `TVFWZRNOTJ` on the negative (`-`) strand in its sixth (`_6`) occurrence.
