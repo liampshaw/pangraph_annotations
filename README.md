@@ -153,7 +153,7 @@ paste -d '\t' tmp.rRNA.IDs tmp.rRNA.products tmp.rRNA.pancontigs | sort -n -k 2
 # Shown as table below:
 ```
 
-| ID    | Product   | Pancontigs    |
+| <sub>ID    | Product   | Pancontigs</sub>    |
 |---    |---    |---    |
 | rna-BU34_07275    | 5S ribosomal RNA  | `LOGKYIGMHO-_8`     |
 | rna-BU34_11810    | 5S ribosomal RNA  | `LOGKYIGMHO+_1`     |
