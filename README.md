@@ -63,7 +63,6 @@ CP007265.1  Genbank gene    4699050 4700590 .   -   .   ID=gene-BU34_30355;panco
 
 This 1540bp gene (`gene-BU34_30355`) has been fragmented across six pancontigs in the genome. The pancontig string in the attributes (last column of gff) gives a comma-separated list of these pancontigs with the ID, strand, and occurrence of each pancontig e.g. `TVFWZRNOTJ-_6`: pancontig `TVFWZRNOTJ` on the negative (`-`) strand in its sixth (`_6`) occurrence.
 
-
 If alternatively we wish to know the positions of the annotations on top of the pancontigs, we can use
 
 ```
@@ -84,7 +83,7 @@ TZQFPNNGZQ  CP007265.1  gene    1   202 .   -   .   ID=gene-BU34_30355-fragment2
 FUBHNOVGNG  CP007265.1  gene    1   272 .   -   .   ID=gene-BU34_30355-fragment1;parent=gene-BU34_30355;NpancontigID=FUBHNOVGNG;pancontigStrand=+;pancontigN=7
 ```
 
-Coordinates are now in terms of the pancontigs i.e. `1` is first base of pancontig. The attributes include pancontig `ID`, `Strand` (`-/+`)and `N` (occurrence).
+Coordinates are now in terms of the pancontigs i.e. `1` is first base of pancontig. The attributes include pancontig `ID`, `Strand` (`-/+`)and `N` (occurrence). The `ID` in the attributes has ID of the 'parent' annotation in the original GFF, with `-fragmentX` added to indicate that it is a fragment.
 
 For a gene that is not fragmented, here is what that looks like (simplifying attributes)
 
@@ -102,8 +101,30 @@ QSHBRKARJW      CP007265.1      gene    21756   23159   .       +       .       
 
 ```
 
-We can see how many genes were fragmented with a quick command:
+We can use this output file to work out things like how many of the annotated genes are fragmented, and across how many pancontigs:
 
 ```
-To add: command to count fragmented genes
+awk '$3=="gene"' pancontigs_as_attributes.gff | sed -e 's/.*pancontigs=//g' | awk -F "," ' { print NF } ' | sort -n | uniq -c 
+# 4549 1
+#   72 2
+#   18 3
+#    2 4
+#    8 6
 ```
+
+The majority of the gene features in our chosen genome (`4549`) were on a single pancontig in the pangenome we built with `pangraph`. (This uses the fact that the `pancontigs` attribute is a comma-separated list and counts up how many items are in the list.)
+
+```
+# What proportion of genes were split across more than one pancontig?
+fragmented=$(awk '$3=="gene"' pancontigs_as_attributes.gff | sed -e 's/.*pancontigs=//g' | grep "," | wc -l)
+total=$(awk '$3=="gene"' pancontigs_as_attributes.gff | wc -l)
+echo $fragmented / $total | bc -l
+# 0.0215 
+# i.e. ~2%
+```
+
+
+
+
+
+The majority of genes 
