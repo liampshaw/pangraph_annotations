@@ -68,7 +68,7 @@ CP007265.1  Genbank gene    2722448 2725372 .   -   .   ID=gene-BU34_17785;panco
 This 1540bp gene (`gene-BU34_17785`) has been fragmented across six pancontigs in the genome. The pancontig string in the attributes (last column of gff) gives a comma-separated list of these pancontigs with the ID, strand, and occurrence of each pancontig e.g. `LOGKYIGMHO-_2`: pancontig `LOGKYIGMHO` on the negative (`-`) strand in its second (`_2`) occurrence. 
 
 
-### Alternative usage: pancontigs as regions
+#### Alternative usage: pancontigs as regions
 
 **This is an abuse of the GFF3 format so use with caution.** 
 
@@ -96,7 +96,6 @@ For a gene that is not fragmented, here is what that looks like (simplifying att
 In `pancontigs_as_attributes.gff`:
 
 ```
-# In pancontigs_as_attributes.gff
 CP007265.1  Genbank gene    47  1450    .   +   .   ID=gene-BU34_00005;pancontigs=QSHBRKARJW-_1
 ```
 
@@ -107,7 +106,9 @@ QSHBRKARJW      CP007265.1      gene    21756   23159   .       +       .       
 
 ```
 
-We can use this output file to work out things like how many of the annotated genes are fragmented, and across how many pancontigs:
+### Analysing fragmentation of annotated features
+
+We can use this output file to work out things like how many of the annotated genes are in sequence regions fragmented across multiple pancontigs:
 
 ```
 awk '$3=="gene"' pancontigs_as_attributes.gff | sed -e 's/.*pancontigs=//g' | awk -F "," ' { print NF } ' | sort -n | uniq -c 
