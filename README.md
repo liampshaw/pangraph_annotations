@@ -28,6 +28,12 @@ python add_pancontigs_to_gff.py --pangraph {pangraph.json}\
     --output_gff {pancontigs_as_regions.gff}
 ```
 
+Output files will have the original header with an additional header-string e.g.
+
+```
+#!pancontig information relative to data/pangraph.json added on 03/07/2023, 10:33:55
+```
+
 ## Example
 
 Example test data are two *E. coli* genomes: [GCA_000597845.1](https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/597/845/GCA_000597845.1_ASM59784v1) and [GCA_000599625.1](https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/599/625/GCA_000599625.1_ASM59962v1/). 
