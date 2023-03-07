@@ -155,31 +155,31 @@ paste -d '\t' tmp.rRNA.IDs tmp.rRNA.products tmp.rRNA.pancontigs | sort -n -k 2
 
 | ID    | Product   | Pancontigs |
 |---    |---    |---    |
-| rna-BU34_07275    | <sub>5S ribosomal RNA </sub> | <sub>`LOGKYIGMHO-_8`</sub>     |
-| rna-BU34_11810    | <sub>5S ribosomal RNA </sub> | <sub>`LOGKYIGMHO+_1`  </sub>   |
-| rna-BU34_11820    | <sub>5S ribosomal RNA </sub> | <sub>`UETZQQDJBD+_1` </sub>    |
-| rna-BU34_17780    | <sub>5S ribosomal RNA </sub> | <sub>`LOGKYIGMHO-_2` </sub>    |
-| rna-BU34_18030    | <sub>5S ribosomal RNA </sub> | <sub>`LOGKYIGMHO-_3` </sub>    |
-| rna-BU34_18910    |<sub> 5S ribosomal RNA </sub> | <sub>`LOGKYIGMHO-_4` </sub>    |
-| rna-BU34_29525    | <sub>5S ribosomal RNA </sub> | <sub>`LOGKYIGMHO-_5` </sub>    |
-| rna-BU34_29770    | <sub>5S ribosomal RNA</sub>  | <sub>`LOGKYIGMHO+_6` </sub>    |
-| rna-BU34_30340    | <sub>5S ribosomal RNA</sub>  | <sub>`LOGKYIGMHO-_7`  </sub>   |
-| rna-BU34_07300    | <sub>16S ribosomal RNA </sub>    | <sub>`TVFWZRNOTJ-_7,DCKHVIHAKN-_7,LGQMDYQNWO-_8,WFWWUGUICI-_8,TZQFPNNGZQ+_8,FUBHNOVGNG+_8`  </sub> |
-| rna-BU34_11790    | <sub>16S ribosomal RNA </sub>    | <sub>`FUBHNOVGNG-_1,TZQFPNNGZQ-_1,WFWWUGUICI+_1,LGQMDYQNWO+_1,DCKHVIHAKN+_1,TVFWZRNOTJ+_1` </sub>  |
-| rna-BU34_17795    |<sub> 16S ribosomal RNA  </sub>   | <sub>`TVFWZRNOTJ-_2,DCKHVIHAKN-_2,LGQMDYQNWO-_2,WFWWUGUICI-_2,TZQFPNNGZQ+_2,FUBHNOVGNG+_2` </sub>  |
-| rna-BU34_18045    | <sub>16S ribosomal RNA  </sub>   | <sub>`TVFWZRNOTJ-_3,DCKHVIHAKN-_3,LGQMDYQNWO-_3,WFWWUGUICI-_3,TZQFPNNGZQ+_3,FUBHNOVGNG+_3` </sub>  |
-| rna-BU34_29545    | <sub>16S ribosomal RNA  </sub>   | <sub>`TVFWZRNOTJ-_4,DCKHVIHAKN-_4,LGQMDYQNWO-_4,WFWWUGUICI-_4,TZQFPNNGZQ+_4,FUBHNOVGNG+_4` </sub>  |
-| rna-BU34_29755    | <sub>16S ribosomal RNA </sub>    | <sub>`FUBHNOVGNG-_5,TZQFPNNGZQ-_5,WFWWUGUICI+_5,LGQMDYQNWO+_5,DCKHVIHAKN+_5,TVFWZRNOTJ+_5` </sub>  |
-| rna-BU34_30355    |<sub> 16S ribosomal RNA  </sub>   | <sub>`TVFWZRNOTJ-_6,DCKHVIHAKN-_6,LGQMDYQNWO-_7,WFWWUGUICI-_7,TZQFPNNGZQ+_7,FUBHNOVGNG+_7` </sub>  |
-| rna-BU34_07280    | <sub>23S ribosomal RNA  </sub>   | <sub>`LOGKYIGMHO-_8,RNWJMFLJPI-_8,MBKTHSSLPV-_8`  </sub>  |
-| rna-BU34_11805    | <sub>23S ribosomal RNA  </sub>   | <sub>`MBKTHSSLPV+_1,RNWJMFLJPI+_1,LOGKYIGMHO+_1` </sub>    |
-| rna-BU34_17785    | <sub>23S ribosomal RNA </sub>    | <sub>`LOGKYIGMHO-_2,RNWJMFLJPI-_2,MBKTHSSLPV-_2`  </sub>   |
-| rna-BU34_18035    |<sub> 23S ribosomal RNA  </sub>   | <sub>`LOGKYIGMHO-_3,RNWJMFLJPI-_3,MBKTHSSLPV-_3`  </sub>   |
-| rna-BU34_18915    | <sub>23S ribosomal RNA  </sub>   | <sub>`LOGKYIGMHO-_4,RNWJMFLJPI-_4,MBKTHSSLPV-_4`  </sub>   |
-| rna-BU34_29530    | <sub>23S ribosomal RNA  </sub>   | <sub>`LOGKYIGMHO-_5,RNWJMFLJPI-_5,MBKTHSSLPV-_5`  </sub>   |
-| rna-BU34_29765    | <sub>23S ribosomal RNA  </sub>   | <sub>`MBKTHSSLPV+_6,RNWJMFLJPI+_6,LOGKYIGMHO+_6`  </sub>   |
-| rna-BU34_30345    | <sub>23S ribosomal RNA  </sub>   | <sub>`LOGKYIGMHO-_7,RNWJMFLJPI-_7,MBKTHSSLPV-_7`  </sub>   |
-| rna-BU34_30355    | <sub>16S ribosomal RNA  </sub>   | <sub>`TVFWZRNOTJ-_6,DCKHVIHAKN-_6,LGQMDYQNWO-_7,WFWWUGUICI-_7,TZQFPNNGZQ+_7,FUBHNOVGNG+_7`</sub>   |
+| <sub>rna-BU34_07275 </sub>   | <sub>5S ribosomal RNA </sub> | <sub>`LOGKYIGMHO-_8`</sub>     |
+| <sub>rna-BU34_11810 </sub>   | <sub>5S ribosomal RNA </sub> | <sub>`LOGKYIGMHO+_1`  </sub>   |
+| <sub>rna-BU34_11820 </sub>   | <sub>5S ribosomal RNA </sub> | <sub>`UETZQQDJBD+_1` </sub>    |
+| <sub>rna-BU34_17780 </sub>   | <sub>5S ribosomal RNA </sub> | <sub>`LOGKYIGMHO-_2` </sub>    |
+| <sub>rna-BU34_18030</sub>    | <sub>5S ribosomal RNA </sub> | <sub>`LOGKYIGMHO-_3` </sub>    |
+| <sub>rna-BU34_18910</sub>    |<sub> 5S ribosomal RNA </sub> | <sub>`LOGKYIGMHO-_4` </sub>    |
+| <sub>rna-BU34_29525 </sub>   | <sub>5S ribosomal RNA </sub> | <sub>`LOGKYIGMHO-_5` </sub>    |
+| <sub>rna-BU34_29770 </sub>   | <sub>5S ribosomal RNA</sub>  | <sub>`LOGKYIGMHO+_6` </sub>    |
+| <sub>rna-BU34_30340  </sub>  | <sub>5S ribosomal RNA</sub>  | <sub>`LOGKYIGMHO-_7`  </sub>   |
+| <sub>rna-BU34_07300 </sub>   | <sub>16S ribosomal RNA </sub>    | <sub>`TVFWZRNOTJ-_7,DCKHVIHAKN-_7,LGQMDYQNWO-_8,WFWWUGUICI-_8,TZQFPNNGZQ+_8,FUBHNOVGNG+_8`  </sub> |
+| <sub>rna-BU34_11790 </sub>   | <sub>16S ribosomal RNA </sub>    | <sub>`FUBHNOVGNG-_1,TZQFPNNGZQ-_1,WFWWUGUICI+_1,LGQMDYQNWO+_1,DCKHVIHAKN+_1,TVFWZRNOTJ+_1` </sub>  |
+| <sub>rna-BU34_17795 </sub>   |<sub> 16S ribosomal RNA  </sub>   | <sub>`TVFWZRNOTJ-_2,DCKHVIHAKN-_2,LGQMDYQNWO-_2,WFWWUGUICI-_2,TZQFPNNGZQ+_2,FUBHNOVGNG+_2` </sub>  |
+|<sub> rna-BU34_18045 </sub>   | <sub>16S ribosomal RNA  </sub>   | <sub>`TVFWZRNOTJ-_3,DCKHVIHAKN-_3,LGQMDYQNWO-_3,WFWWUGUICI-_3,TZQFPNNGZQ+_3,FUBHNOVGNG+_3` </sub>  |
+| <sub>rna-BU34_29545 </sub>   | <sub>16S ribosomal RNA  </sub>   | <sub>`TVFWZRNOTJ-_4,DCKHVIHAKN-_4,LGQMDYQNWO-_4,WFWWUGUICI-_4,TZQFPNNGZQ+_4,FUBHNOVGNG+_4` </sub>  |
+| <sub>rna-BU34_29755 </sub>   | <sub>16S ribosomal RNA </sub>    | <sub>`FUBHNOVGNG-_5,TZQFPNNGZQ-_5,WFWWUGUICI+_5,LGQMDYQNWO+_5,DCKHVIHAKN+_5,TVFWZRNOTJ+_5` </sub>  |
+|<sub> rna-BU34_30355 </sub>   |<sub> 16S ribosomal RNA  </sub>   | <sub>`TVFWZRNOTJ-_6,DCKHVIHAKN-_6,LGQMDYQNWO-_7,WFWWUGUICI-_7,TZQFPNNGZQ+_7,FUBHNOVGNG+_7` </sub>  |
+| <sub>rna-BU34_07280 </sub>   | <sub>23S ribosomal RNA  </sub>   | <sub>`LOGKYIGMHO-_8,RNWJMFLJPI-_8,MBKTHSSLPV-_8`  </sub>  |
+| <sub>rna-BU34_11805 </sub>   | <sub>23S ribosomal RNA  </sub>   | <sub>`MBKTHSSLPV+_1,RNWJMFLJPI+_1,LOGKYIGMHO+_1` </sub>    |
+| <sub>rna-BU34_17785 </sub>   | <sub>23S ribosomal RNA </sub>    | <sub>`LOGKYIGMHO-_2,RNWJMFLJPI-_2,MBKTHSSLPV-_2`  </sub>   |
+| <sub>rna-BU34_18035 </sub>   |<sub> 23S ribosomal RNA  </sub>   | <sub>`LOGKYIGMHO-_3,RNWJMFLJPI-_3,MBKTHSSLPV-_3`  </sub>   |
+| <sub>rna-BU34_18915 </sub>   | <sub>23S ribosomal RNA  </sub>   | <sub>`LOGKYIGMHO-_4,RNWJMFLJPI-_4,MBKTHSSLPV-_4`  </sub>   |
+| <sub>rna-BU34_29530 </sub>   | <sub>23S ribosomal RNA  </sub>   | <sub>`LOGKYIGMHO-_5,RNWJMFLJPI-_5,MBKTHSSLPV-_5`  </sub>   |
+| <sub>rna-BU34_29765 </sub>   | <sub>23S ribosomal RNA  </sub>   | <sub>`MBKTHSSLPV+_6,RNWJMFLJPI+_6,LOGKYIGMHO+_6`  </sub>   |
+| <sub>rna-BU34_30345 </sub>   | <sub>23S ribosomal RNA  </sub>   | <sub>`LOGKYIGMHO-_7,RNWJMFLJPI-_7,MBKTHSSLPV-_7`  </sub>   |
+| <sub>rna-BU34_30355 </sub>   | <sub>16S ribosomal RNA  </sub>   | <sub>`TVFWZRNOTJ-_6,DCKHVIHAKN-_6,LGQMDYQNWO-_7,WFWWUGUICI-_7,TZQFPNNGZQ+_7,FUBHNOVGNG+_7`</sub>   |
 
 
 The fragmentation of the 23S rRNA annotation happens across three pancontigs: always the same ones and always the same order (after taking strand into account). Note that pancontig `LOGKYIGMHO` also contains 5S rRNA annotations. 
