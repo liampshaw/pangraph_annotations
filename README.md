@@ -55,29 +55,31 @@ python add_pancontigs_to_gff.py --pangraph data/pangraph.json --input_gff data/G
 
 ```
 
-Our 1540bp gene (`gene-BU34_30355`) stretches across six pancontigs and so has been split into six lines. Coordinates are now in terms of the pancontigs i.e. `1` is first base of pancontig. The attributes include pancontig `ID`, `Strand` (`-/+`)and `N` (occurrence). This is an abuse of the GFF3 format so use with caution.
+Our 1540bp gene (`gene-BU34_30355`) stretches across six pancontigs and so has been split into six lines. **This is an abuse of the GFF3 format so use with caution.**
 
 ```
-TVFWZRNOTJ  CP007265.1  gene    1   90  .   -   .   ID=gene-BU34_30355-fragment6;parent=gene-BU34_30355;Name=BU34_30355;gbkey=Gene;gene_biotype=rRNA;locus_tag=BU34_30355;pancontigID=TVFWZRNOTJ;pancontigStrand=-;pancontigN=6
-DCKHVIHAKN  CP007265.1  gene    1   636 .   -   .   ID=gene-BU34_30355-fragment5;parent=gene-BU34_30355;Name=BU34_30355;gbkey=Gene;gene_biotype=rRNA;locus_tag=BU34_30355;pancontigID=DCKHVIHAKN;pancontigStrand=-;pancontigN=6
-LGQMDYQNWO  CP007265.1  gene    1   224 .   -   .   ID=gene-BU34_30355-fragment4;parent=gene-BU34_30355;Name=BU34_30355;gbkey=Gene;gene_biotype=rRNA;locus_tag=BU34_30355;pancontigID=LGQMDYQNWO;pancontigStrand=-;pancontigN=7
-WFWWUGUICI  CP007265.1  gene    1   117 .   -   .   ID=gene-BU34_30355-fragment3;parent=gene-BU34_30355;Name=BU34_30355;gbkey=Gene;gene_biotype=rRNA;locus_tag=BU34_30355;pancontigID=WFWWUGUICI;pancontigStrand=-;pancontigN=7
-TZQFPNNGZQ  CP007265.1  gene    1   202 .   -   .   ID=gene-BU34_30355-fragment2;parent=gene-BU34_30355;Name=BU34_30355;gbkey=Gene;gene_biotype=rRNA;locus_tag=BU34_30355;pancontigID=TZQFPNNGZQ;pancontigStrand=+;pancontigN=7
-FUBHNOVGNG  CP007265.1  gene    1   272 .   -   .   ID=gene-BU34_30355-fragment1;parent=gene-BU34_30355;Name=BU34_30355;gbkey=Gene;gene_biotype=rRNA;locus_tag=BU34_30355;pancontigID=FUBHNOVGNG;pancontigStrand=+;pancontigN=7
+TVFWZRNOTJ  CP007265.1  gene    1   90  .   -   .   ID=gene-BU34_30355-fragment6;parent=gene-BU34_30355;pancontigID=TVFWZRNOTJ;pancontigStrand=-;pancontigN=6
+DCKHVIHAKN  CP007265.1  gene    1   636 .   -   .   ID=gene-BU34_30355-fragment5;parent=gene-BU34_30355;pancontigID=DCKHVIHAKN;pancontigStrand=-;pancontigN=6
+LGQMDYQNWO  CP007265.1  gene    1   224 .   -   .   ID=gene-BU34_30355-fragment4;parent=gene-BU34_30355;pancontigID=LGQMDYQNWO;pancontigStrand=-;pancontigN=7
+WFWWUGUICI  CP007265.1  gene    1   117 .   -   .   ID=gene-BU34_30355-fragment3;parent=gene-BU34_30355;pancontigID=WFWWUGUICI;pancontigStrand=-;pancontigN=7
+TZQFPNNGZQ  CP007265.1  gene    1   202 .   -   .   ID=gene-BU34_30355-fragment2;parent=gene-BU34_30355;pancontigID=TZQFPNNGZQ;pancontigStrand=+;pancontigN=7
+FUBHNOVGNG  CP007265.1  gene    1   272 .   -   .   ID=gene-BU34_30355-fragment1;parent=gene-BU34_30355;NpancontigID=FUBHNOVGNG;pancontigStrand=+;pancontigN=7
 ```
 
-For a gene that is not fragmented, here is what that looks like:
+Coordinates are now in terms of the pancontigs i.e. `1` is first base of pancontig. The attributes include pancontig `ID`, `Strand` (`-/+`)and `N` (occurrence).
+
+For a gene that is not fragmented, here is what that looks like (simplifying attributes)
 
 In `pancontigs_as_attributes.gff`:
 
 ```
 # In pancontigs_as_attributes.gff
-CP007265.1  Genbank gene    47  1450    .   +   .   ID=gene-BU34_00005;Name=dnaA;gbkey=Gene;gene=dnaA;gene_biotype=protein_coding;locus_tag=BU34_00005;pancontigs=QSHBRKARJW-_1
+CP007265.1  Genbank gene    47  1450    .   +   .   ID=gene-BU34_00005;pancontigs=QSHBRKARJW-_1
 ```
 
 In `pancontigs_as_regions.gff`:
 
 ```
-QSHBRKARJW      CP007265.1      gene    21756   23159   .       +       .       ID=gene-BU34_00005;Name=dnaA;gbkey=Gene;      gene=dnaA;gene_biotype=protein_coding;locus_tag=BU34_00005;pancontigID=QSHBRKARJW;pancontigStrand=-;pancontigN=1
+QSHBRKARJW      CP007265.1      gene    21756   23159   .       +       .       ID=gene-BU34_00005;pancontigID=QSHBRKARJW;pancontigStrand=-;pancontigN=1
 
 ```
