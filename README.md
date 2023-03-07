@@ -176,7 +176,9 @@ paste -d '\t' tmp.rRNA.products tmp.rRNA.pancontigs | sort -n
 
 ```
 
-The fragmentation of 23S rRNA happens across three pancontigs: always the same ones and always the same order. Pancontig `LOGKYIGMHO` also contains 5S rRNA annotations. We can also see this from looking in `pancontigs_as_regions.gff`:
+The fragmentation of the 23S rRNA annotation happens across three pancontigs: always the same ones and always the same order (after taking strand into account). Note that pancontig `LOGKYIGMHO` also contains 5S rRNA annotations. 
+
+We can also see this from a different perspective by looking in `pancontigs_as_regions.gff`:
 
 ```
 awk '$3=="rRNA" && $1=="LOGKYIGMHO"' pancontigs_as_regions.gff | head -n 2
