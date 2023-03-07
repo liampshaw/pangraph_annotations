@@ -153,6 +153,10 @@ paste -d '\t' tmp.rRNA.IDs tmp.rRNA.products tmp.rRNA.pancontigs | sort -n -k 2
 # Shown as table below:
 ```
 
+<style scoped>
+table {
+  font-size: 6px;
+}
 | ID    | Product   | Pancontigs    |
 |---    |---    |---    |
 | rna-BU34_07275    | 5S ribosomal RNA  | `LOGKYIGMHO-_8`     |
@@ -180,6 +184,7 @@ paste -d '\t' tmp.rRNA.IDs tmp.rRNA.products tmp.rRNA.pancontigs | sort -n -k 2
 | rna-BU34_29765    | 23S ribosomal RNA     | `MBKTHSSLPV+_6,RNWJMFLJPI+_6,LOGKYIGMHO+_6`     |
 | rna-BU34_30345    | 23S ribosomal RNA     | `LOGKYIGMHO-_7,RNWJMFLJPI-_7,MBKTHSSLPV-_7`     |
 | rna-BU34_30355    | 16S ribosomal RNA     | `TVFWZRNOTJ-_6,DCKHVIHAKN-_6,LGQMDYQNWO-_7,WFWWUGUICI-_7,TZQFPNNGZQ+_7,FUBHNOVGNG+_7`   |
+</style>
 
 The fragmentation of the 23S rRNA annotation happens across three pancontigs: always the same ones and always the same order (after taking strand into account). Note that pancontig `LOGKYIGMHO` also contains 5S rRNA annotations. 
 
