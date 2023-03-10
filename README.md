@@ -132,7 +132,7 @@ echo $fragmented / $total | bc -l
 
 ### Possible reasons for fragmentation
 
-In fact, the gene we investigated above `gene-BU34_30355` is a 23S ribosomal RNA gene. *E. coli* has [seven copies](https://www.pnas.org/doi/10.1073/pnas.96.5.1971#:~:text=Each%20of%20the%20seven) of the 23S rRNA gene in different genomic locations, each time as part of the *rrn* operon.
+In fact, the gene we investigated above `gene-BU34_30355` is a 23S ribosomal RNA gene. *E. coli* has [seven copies](https://www.pnas.org/doi/10.1073/pnas.96.5.1971#:~:text=Each%20of%20the%20seven) of the *rrn* operon in its genome, each of which contains 5S, 16S and 23S rRNA genes, and may have additional copies of .   
 
 If we now search for all ribosomal RNA genes (rRNA), we see that over half of theme (15/24, 62.5%) are fragmented:
 
@@ -179,7 +179,6 @@ paste -d '\t' tmp.rRNA.IDs tmp.rRNA.products tmp.rRNA.pancontigs | sort -n -k 2
 | <sub>rna-BU34_29530 </sub>   | <sub>23S ribosomal RNA  </sub>   | <sub>`LOGKYIGMHO-_5,RNWJMFLJPI-_5,MBKTHSSLPV-_5`  </sub>   |
 | <sub>rna-BU34_29765 </sub>   | <sub>23S ribosomal RNA  </sub>   | <sub>`MBKTHSSLPV+_6,RNWJMFLJPI+_6,LOGKYIGMHO+_6`  </sub>   |
 | <sub>rna-BU34_30345 </sub>   | <sub>23S ribosomal RNA  </sub>   | <sub>`LOGKYIGMHO-_7,RNWJMFLJPI-_7,MBKTHSSLPV-_7`  </sub>   |
-| <sub>rna-BU34_30355 </sub>   | <sub>16S ribosomal RNA  </sub>   | <sub>`TVFWZRNOTJ-_6,DCKHVIHAKN-_6,LGQMDYQNWO-_7,WFWWUGUICI-_7,TZQFPNNGZQ+_7,FUBHNOVGNG+_7`</sub>   |
 
 
 The fragmentation of the 23S rRNA annotation happens across three pancontigs: always the same ones and always the same order (after taking strand into account). Note that pancontig `LOGKYIGMHO` also contains 5S rRNA annotations. 

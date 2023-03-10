@@ -15,8 +15,8 @@ def get_options():
         help="Annotations (GFF)", required=True)
     parser.add_argument("--output_gff", 
         help="Output gff with pancontigs as attributes (GFF)", required=False, default="")
-    parser.add_argument("--mode", choices=["keep_original", "make_new"],  
-        help="Whether to keep original gff and add pancontig attributes (keep_original) or make a new gff wrt pancontigs (make_new)", required=False, default="keep_original")
+    parser.add_argument("--mode", choices=["attributes", "regions"],  
+        help="Whether to keep original gff and add pancontig attributes (attributes) or make a new gff wrt pancontigs (regions)", required=False, default="attributes")
     return parser.parse_args()
 
 class gffEntry:
@@ -218,9 +218,9 @@ def main():
     additional_header_string = "#!pancontig information relative to "+str(args.pangraph)+" added on "+datetime.now().strftime("%m/%d/%Y, %H:%M:%S")+"\n"
     gff_header_string = gff_header(args.input_gff)+additional_header_string
     glued_gff = GraphGFF(args.pangraph, args.input_gff)
-    if args.mode=="keep_original":
+    if args.mode=="attributes":
         output_gff_list = glued_gff.new_gff.gff_to_df().values.tolist()
-    elif args.mode=="make_new":
+    elif args.mode=="regions":
         # IN PROGRESS
         # To do: add a proper header string with sequence regions as pancontigs
         # Need to output a new file of the pancontigs with *actual sequences* in the strain
