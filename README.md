@@ -48,7 +48,7 @@ pangraph build --circular data/input_genomes.fa > data/pangraph.json
 # should take several minutes on a typical laptop
 ```
 
-### Combining annotations with pangraph
+### Understanding the output
 
 Then, we combine the existing annotations for `NZ_CP103755.1` with this pangraph as follows:
 
@@ -79,10 +79,29 @@ FUZWWRHODH  NZ_CP103755.1   gene    3558    4658    .   +   .   ID=gene-NYO14_RS
 
 Here, pancontig ID is stored as the region (first entry). Coordinates of the feature now in terms of the pancontigs i.e. `1` is first base of the pancontig sequence in genome `NZ_CP103755.1`. (Note that this is in terms of the specific sequence in that genome, *not* the consensus sequence of the pancontig.) The attributes still include pancontig `ID`, `Strand` (`-/+`)and `N` (occurrence). The `ID` in the attributes has ID of the 'parent' annotation in the original GFF, with `-fragmentX` added if the feature has been fragmented. 
 
+### Understanding duplicated genes
+
+Bacterial genomes can contain multiple copies of genes. For example, *E. coli* typically has [seven copies](https://www.pnas.org/doi/10.1073/pnas.96.5.1971#:~:text=Each%20of%20the%20seven) of rRNA genes in different genomic locations, each time as part of the *rrn* operon containing 5S, 16S and 23S.
+
+If we search for 16 rRNA we can confirm that this is the case:
+
+```
+awk '$3=="rRNA"' output/pancontigs_as_attributes.gff | grep "16S" | awk -F '\t' '{print $4,$5,$9}' | sed -e 's/ID.*pancontigs=//g'
+# 454337 455878 BFXNRUIRZJ+_6
+# 1307507 1309048 BFXNRUIRZJ+_7
+# 4069015 4070556 BFXNRUIRZJ-_1
+# 4951804 4953345 BFXNRUIRZJ-_2
+# 4992072 4993613 BFXNRUIRZJ-_3
+# 5121127 5122668 BFXNRUIRZJ-_4
+# 5235634 5237175 BFXNRUIRZJ-_5
+```
+
+There are 7 16S rRNA genes and they occur on 7 instances of the `BFXNRUIRZJ` pancontig, as expected. 
+
 
 ### Investigating fragmented genes
 
-We can use the output files to work out things like how many of the annotated genes are in sequence regions fragmented across multiple pancontigs. (This uses the fact that the `pancontigs` attribute is a comma-separated list and counts up how many items are in the list.)
+We can use the output files to work out things like how many gene features are in sequence regions fragmented across multiple pancontigs. (This uses the fact that the `pancontigs` attribute is a comma-separated list and counts up how many items are in the list.)
 
 ```
 awk '$3=="gene"' output/pancontigs_as_attributes.gff | sed -e 's/.*pancontigs=//g' | awk -F "," ' { print NF } ' | sort -n | uniq -c 
@@ -134,5 +153,7 @@ NZ_CP103755.1   RefSeq  gene    4800275 4801918 .   +   .   ID=gene-NYO14_RS2390
 ```
 
 If we investigate feature fragmentation across the genome, we find it has slightly decreased to 4.9%. 
+
+(TO ADD: using mmseqs2)
 
 
