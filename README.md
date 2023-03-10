@@ -165,7 +165,7 @@ python scripts/add_pancontigs_to_gff.py --input_gff data/NZ_CP103755.1.gff3 --pa
 
 The proportion of genes that are fragmented now goes down to 4.0%. 
 
-The remaining fragmentation can be due to genes that have sections duplicated elsewhere. Frequently these can be associated with active genomic movement. We can check this by looking at the gene products:
+The remaining fragmentation could be caused by multiple factors. One could be genes that have regions within them that are homologous to other regions of the genome - such genes are often associated with active genomic movement. We can check this by looking at the gene products:
 
 ```
 # get locations of fragmented features
@@ -181,7 +181,7 @@ awk 'NR==FNR{linesToPrint[$0];next}
      | sort -n > output/mmseqs_fragmented_CDS_products.txt
 ```
 
-Investigating these, we can see that the most common known protein products appear to be involved with molecular entities like transposases or prophage.
+Investigating these, we can see that the most common known protein products seem to be involved with molecular entities like transposases or phage.
 
 ```
 uniq -c output/mmseqs_fragmented_CDS_products.txt| sort -n -r | head
