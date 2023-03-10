@@ -16,15 +16,16 @@ conda activate pangraph_annotations
 
 ```
 # Add pancontigs as attributes to original gff
+# RECOMMENDED
 python add_pancontigs_to_gff.py --pangraph {pangraph.json} \
     --input_gff {genome.gff} \
-    --mode keep_original \
+    --mode attributes \
     --output_gff {pancontigs_as_attributes.gff}
-# Add pancontigs as regions
-# WARNING: abuse of the GFF3 format 
+# Or: add pancontigs as regions
+# WARNING: abuse of the GFF3 format!
 python add_pancontigs_to_gff.py --pangraph {pangraph.json}\
     --input_gff {genome.gff} \
-    --mode make_new \
+    --mode regions \
     --output_gff {pancontigs_as_regions.gff}
 ```
 
@@ -34,159 +35,104 @@ Output files will have the original header with an additional header-string e.g.
 #!pancontig information relative to data/pangraph.json added on 03/07/2023, 10:33:55
 ```
 
-## Example application
+## Example dataset
 
-Our example data are two *Escherichia coli* genomes: [GCA_000597845.1](https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/597/845/GCA_000597845.1_ASM59784v1) and [GCA_000599625.1](https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/599/625/GCA_000599625.1_ASM59962v1/). 
+Our example data are two *Escherichia coli* genomes: [NZ_CP103755.1](https://www.ncbi.nlm.nih.gov/nuccore/NZ_CP103755.1) and [NC_000913.3](https://www.ncbi.nlm.nih.gov/nuccore/NC_000913.3). 
 
-Their genomes are in `data/input_genomes.fa`. Also there are GFF3 annotations for `GCA_000597845.1`. 
-
-
-### Default usage
+Their genomes are in `data/input_genomes.fa`, along with gff3 data on feature annotations. 
 
 First, we build a pangraph with
 
 ```
 pangraph build --circular data/input_genomes.fa > data/pangraph.json
-# N.B. may take a few minutes
+# should take several minutes on a typical laptop
 ```
 
-Then, we combine the existing annotations for `GCA_000597845.1` with this pangraph, as follows:
+### Combining annotations with pangraph
+
+Then, we combine the existing annotations for `NZ_CP103755.1` with this pangraph as follows:
 
 ```
 python add_pancontigs_to_gff.py --pangraph data/pangraph.json \
-    --input_gff data/GCA_000597845.1.gff \
-    --mode keep_original \
-    --output_gff pancontigs_as_attributes.gff
+    --input_gff data/NZ_CP103755.1.gff3 \
+    --mode attributes \
+    --output_gff output/pancontigs_as_attributes.gff
 ```
 
-This adds pancontig information as an attribute to each annotated feature. Here is a (simplified attributes) example from that output file of a gene that stretches across multiple pancontigs:
+This adds pancontig information as an attribute to each annotated feature. We can also do the same command using `--mode regions --output_gff output/pancontigs_as_regions.gff`. 
+
+For a single feature, the output gff will look something like the following:
+
+In `output/pancontigs_as_attributes.gff`:
 
 ```
-CP007265.1  Genbank gene    2722448 2725372 .   -   .   ID=gene-BU34_17785;pancontigs=LOGKYIGMHO-_2,RNWJMFLJPI-_2,MBKTHSSLPV-_2
+NZ_CP103755.1   RefSeq  gene    1409    2509    .       +       .       ID=gene-NYO14_RS00010;Name=dnaN;pancontigs=FUZWWRHODH-_1
 ```
 
-This 1540bp gene (`gene-BU34_17785`) has been fragmented across six pancontigs in the genome. The pancontig string in the attributes (last column of gff) gives a comma-separated list of these pancontigs with the ID, strand, and occurrence of each pancontig e.g. `LOGKYIGMHO-_2`: pancontig `LOGKYIGMHO` on the negative (`-`) strand in its second (`_2`) occurrence. 
+Pancontig information is stored as an attribute `pancontigs` which is a comma-separated of pancontig ID (`FUZWWRHODH`), strand (`-`, negative), and pancontig occurrence (`1` - some pancontigs may occur multiple times within a genome).
 
-
-#### Alternative usage: pancontigs as regions
-
-**This is an abuse of the GFF3 format so use with caution.** 
-
-If alternatively we wish to know the positions of the annotations on top of the pancontigs, we can use
+Alternatively, the same feature in `output/pancontigs_as_regions.gff` will look the following:
 
 ```
-python add_pancontigs_to_gff.py --pangraph data/pangraph.json\
-    --input_gff data/GCA_000597845.1.gff \
-    --mode make_new \
-    --output_gff pancontigs_as_regions.gff
+FUZWWRHODH  NZ_CP103755.1   gene    3558    4658    .   +   .   ID=gene-NYO14_RS00010;Name=dnaN;pancontigID=FUZWWRHODH;pancontigStrand=-;pancontigN=1
 ```
 
-The 1540bp gene we looked at (`gene-BU34_17785`) stretches across three pancontigs and so in this output file it has been split into three lines. 
+Here, pancontig ID is stored as the region (first entry). Coordinates of the feature now in terms of the pancontigs i.e. `1` is first base of the pancontig sequence in genome `NZ_CP103755.1`. (Note that this is in terms of the specific sequence in that genome, *not* the consensus sequence of the pancontig.) The attributes still include pancontig `ID`, `Strand` (`-/+`)and `N` (occurrence). The `ID` in the attributes has ID of the 'parent' annotation in the original GFF, with `-fragmentX` added if the feature has been fragmented. 
+
+
+### Investigating fragmented genes
+
+We can use the output files to work out things like how many of the annotated genes are in sequence regions fragmented across multiple pancontigs. (This uses the fact that the `pancontigs` attribute is a comma-separated list and counts up how many items are in the list.)
 
 ```
-LOGKYIGMHO  CP007265.1  gene    1   666 .   -   .   ID=gene-BU34_17785-fragment3;pancontigID=LOGKYIGMHO;pancontigStrand=-;pancontigN=2
-RNWJMFLJPI  CP007265.1  gene    1   2158    .   -   .   ID=gene-BU34_17785-fragment2;pancontigID=RNWJMFLJPI;pancontigStrand=-;pancontigN=2
-MBKTHSSLPV  CP007265.1  gene    12  112 .   -   .   ID=gene-BU34_17785-fragment1;pancontigID=MBKTHSSLPV;pancontigStrand=-;pancontigN=2
+awk '$3=="gene"' output/pancontigs_as_attributes.gff | sed -e 's/.*pancontigs=//g' | awk -F "," ' { print NF } ' | sort -n | uniq -c 
+#   4742 1
+#    251 2
+#     27 3
+#      2 4
+#      4 5
+#      1 6
+#      1 7
 ```
 
-Coordinates are now in terms of the pancontigs i.e. `1` is first base of pancontig. The gene fragments each span the (short) pancontigs. The attributes include pancontig `ID`, `Strand` (`-/+`)and `N` (occurrence). The `ID` in the attributes has ID of the 'parent' annotation in the original GFF, with `-fragmentX` added to indicate that it is a fragment.
+We see that the majority of genes are not fragmented across pancontigs (4742/5028, 94.3%). However, that means that 5.7% of gene features were split across multiple pancontigs in the pangraph. 
 
-For a gene that is not fragmented, here is what that looks like (simplifying attributes)
-
-In `pancontigs_as_attributes.gff`:
+Here is an example of a gene across three pancontigs in `output/pancontigs_as_attributes.gff`:
 
 ```
-CP007265.1  Genbank gene    47  1450    .   +   .   ID=gene-BU34_00005;pancontigs=QSHBRKARJW-_1
+NZ_CP103755.1   RefSeq  gene    4800275 4801918 .   +   .   ID=gene-NYO14_RS23905;Name=eptA;pancontigs=RSKEOEJAUR+_1,TMJJAHMODI-_1,HUNZFBTUMK-_1
 ```
 
-In `pancontigs_as_regions.gff`:
+The `eptA` gene has been split across the pancontigs `RSKEOEJAUR`, `TMJJAHMODI`, and `HUNZFBTUMK`.
 
-```
-QSHBRKARJW      CP007265.1      gene    21756   23159   .       +       .       ID=gene-BU34_00005;pancontigID=QSHBRKARJW;pancontigStrand=-;pancontigN=1
+If we export the pangraph (`pangraph export data/pangraph.json -p pangraph -o data/`) and inspect it in [Bandage](https://rrwick.github.io/Bandage/), then we can see what happens in the graph structure at these three blocks.
 
-```
+Here we have coloured nodes (pancontigs) by depth, so that red pancontigs appear in both genomes and black only in one. The pangraph shows differences in structure at this point: one genome has pancontig `TMJJAHMODI` and one has `SIPWJSWAVJ`:
 
-### Analysing fragmentation of annotated features
+![](images/bandage_screenshot.png)
 
-We can use this output file to work out things like how many of the annotated genes are in sequence regions fragmented across multiple pancontigs:
+The `eptA` gene spans across this region, leading to fragmentation when mapped onto the pangraph.
 
-```
-awk '$3=="gene"' pancontigs_as_attributes.gff | sed -e 's/.*pancontigs=//g' | awk -F "," ' { print NF } ' | sort -n | uniq -c 
-# 4549 1
-#   72 2
-#   18 3
-#    2 4
-#    8 6
-```
-
-The majority of the gene features (4549/4649 ~ 97.8%) were mapped to a single pancontig in the pangenome we built with `pangraph` from the two strains. (This uses the fact that the `pancontigs` attribute is a comma-separated list and counts up how many items are in the list.)
-
-```
-# What proportion of genes were split across more than one pancontig?
-fragmented=$(awk '$3=="gene"' pancontigs_as_attributes.gff | sed -e 's/.*pancontigs=//g' | grep "," | wc -l)
-total=$(awk '$3=="gene"' pancontigs_as_attributes.gff | wc -l)
-echo $fragmented / $total | bc -l
-# 0.0215 
-# i.e. ~2.2%
-```
 
 ### Possible reasons for fragmentation
 
-In fact, the gene we investigated above `gene-BU34_30355` is a 23S ribosomal RNA gene. *E. coli* has [seven copies](https://www.pnas.org/doi/10.1073/pnas.96.5.1971#:~:text=Each%20of%20the%20seven) of the *rrn* operon in its genome, each of which contains 5S, 16S and 23S rRNA genes, and may have additional copies of .   
+The difference in genome structure *within* a gene might be caused by sequence divergence leading to splitting of pancontigs. In fact, inspecting pancontigs `TMJJAHMODI` and `SIPWJSWAVJ`, both are 211bp long. 
 
-If we now search for all ribosomal RNA genes (rRNA), we see that over half of theme (15/24, 62.5%) are fragmented:
-
-```
-awk '$3=="gene"' pancontigs_as_attributes.gff | grep "biotype=rRNA" | sed -e 's/.*pancontigs=//g' | awk -F "," ' { print NF } ' | sort -n | uniq -c
-# 9 1
-# 8 3
-# 7 6
-```
-
-We can see this more clearly if we look at the `rRNA` features in our annotations and the pancontigs they are on:
+If we rerun pangraph with increased divergence tolerance (`-s` parameter), we may reduce fragmentation:
 
 ```
-awk '$3=="rRNA"' pancontigs_as_attributes.gff   | sed -e 's/.*ID=//g' | sed -e 's/;.*//g' > tmp.rRNA.IDs
-awk '$3=="rRNA"' pancontigs_as_attributes.gff   | sed -e 's/.*product=//g' | sed -e 's/;.*//g' > tmp.rRNA.products
-awk '$3=="rRNA"' pancontigs_as_attributes.gff  | sed -e 's/.*pancontigs=//g' > tmp.rRNA.pancontigs
-paste -d '\t' tmp.rRNA.IDs tmp.rRNA.products tmp.rRNA.pancontigs | sort -n -k 2 
-# Shown as table below:
+# Build a new pangraph
+pangraph build --circular data/input_genomes.fa -s 20 > data/pangraph-s20.json
+# Add features to the new pangraph
+python add_pancontigs_to_gff.py --input_gff data/NZ_CP103755.1.gff3 --pangraph data/pangraph-s20.json --output_gff output/pancontigs_as_attributes-s20.gff --mode attributes
 ```
 
-| ID    | Product   | Pancontigs |
-|---    |---    |---    |
-| <sub>rna-BU34_07275 </sub>   | <sub>5S ribosomal RNA </sub> | <sub>`LOGKYIGMHO-_8`</sub>     |
-| <sub>rna-BU34_11810 </sub>   | <sub>5S ribosomal RNA </sub> | <sub>`LOGKYIGMHO+_1`  </sub>   |
-| <sub>rna-BU34_11820 </sub>   | <sub>5S ribosomal RNA </sub> | <sub>`UETZQQDJBD+_1` </sub>    |
-| <sub>rna-BU34_17780 </sub>   | <sub>5S ribosomal RNA </sub> | <sub>`LOGKYIGMHO-_2` </sub>    |
-| <sub>rna-BU34_18030</sub>    | <sub>5S ribosomal RNA </sub> | <sub>`LOGKYIGMHO-_3` </sub>    |
-| <sub>rna-BU34_18910</sub>    |<sub> 5S ribosomal RNA </sub> | <sub>`LOGKYIGMHO-_4` </sub>    |
-| <sub>rna-BU34_29525 </sub>   | <sub>5S ribosomal RNA </sub> | <sub>`LOGKYIGMHO-_5` </sub>    |
-| <sub>rna-BU34_29770 </sub>   | <sub>5S ribosomal RNA</sub>  | <sub>`LOGKYIGMHO+_6` </sub>    |
-| <sub>rna-BU34_30340  </sub>  | <sub>5S ribosomal RNA</sub>  | <sub>`LOGKYIGMHO-_7`  </sub>   |
-| <sub>rna-BU34_07300 </sub>   | <sub>16S ribosomal RNA </sub>    | <sub>`TVFWZRNOTJ-_7,DCKHVIHAKN-_7,LGQMDYQNWO-_8,WFWWUGUICI-_8,TZQFPNNGZQ+_8,FUBHNOVGNG+_8`  </sub> |
-| <sub>rna-BU34_11790 </sub>   | <sub>16S ribosomal RNA </sub>    | <sub>`FUBHNOVGNG-_1,TZQFPNNGZQ-_1,WFWWUGUICI+_1,LGQMDYQNWO+_1,DCKHVIHAKN+_1,TVFWZRNOTJ+_1` </sub>  |
-| <sub>rna-BU34_17795 </sub>   |<sub> 16S ribosomal RNA  </sub>   | <sub>`TVFWZRNOTJ-_2,DCKHVIHAKN-_2,LGQMDYQNWO-_2,WFWWUGUICI-_2,TZQFPNNGZQ+_2,FUBHNOVGNG+_2` </sub>  |
-|<sub> rna-BU34_18045 </sub>   | <sub>16S ribosomal RNA  </sub>   | <sub>`TVFWZRNOTJ-_3,DCKHVIHAKN-_3,LGQMDYQNWO-_3,WFWWUGUICI-_3,TZQFPNNGZQ+_3,FUBHNOVGNG+_3` </sub>  |
-| <sub>rna-BU34_29545 </sub>   | <sub>16S ribosomal RNA  </sub>   | <sub>`TVFWZRNOTJ-_4,DCKHVIHAKN-_4,LGQMDYQNWO-_4,WFWWUGUICI-_4,TZQFPNNGZQ+_4,FUBHNOVGNG+_4` </sub>  |
-| <sub>rna-BU34_29755 </sub>   | <sub>16S ribosomal RNA </sub>    | <sub>`FUBHNOVGNG-_5,TZQFPNNGZQ-_5,WFWWUGUICI+_5,LGQMDYQNWO+_5,DCKHVIHAKN+_5,TVFWZRNOTJ+_5` </sub>  |
-|<sub> rna-BU34_30355 </sub>   |<sub> 16S ribosomal RNA  </sub>   | <sub>`TVFWZRNOTJ-_6,DCKHVIHAKN-_6,LGQMDYQNWO-_7,WFWWUGUICI-_7,TZQFPNNGZQ+_7,FUBHNOVGNG+_7` </sub>  |
-| <sub>rna-BU34_07280 </sub>   | <sub>23S ribosomal RNA  </sub>   | <sub>`LOGKYIGMHO-_8,RNWJMFLJPI-_8,MBKTHSSLPV-_8`  </sub>  |
-| <sub>rna-BU34_11805 </sub>   | <sub>23S ribosomal RNA  </sub>   | <sub>`MBKTHSSLPV+_1,RNWJMFLJPI+_1,LOGKYIGMHO+_1` </sub>    |
-| <sub>rna-BU34_17785 </sub>   | <sub>23S ribosomal RNA </sub>    | <sub>`LOGKYIGMHO-_2,RNWJMFLJPI-_2,MBKTHSSLPV-_2`  </sub>   |
-| <sub>rna-BU34_18035 </sub>   |<sub> 23S ribosomal RNA  </sub>   | <sub>`LOGKYIGMHO-_3,RNWJMFLJPI-_3,MBKTHSSLPV-_3`  </sub>   |
-| <sub>rna-BU34_18915 </sub>   | <sub>23S ribosomal RNA  </sub>   | <sub>`LOGKYIGMHO-_4,RNWJMFLJPI-_4,MBKTHSSLPV-_4`  </sub>   |
-| <sub>rna-BU34_29530 </sub>   | <sub>23S ribosomal RNA  </sub>   | <sub>`LOGKYIGMHO-_5,RNWJMFLJPI-_5,MBKTHSSLPV-_5`  </sub>   |
-| <sub>rna-BU34_29765 </sub>   | <sub>23S ribosomal RNA  </sub>   | <sub>`MBKTHSSLPV+_6,RNWJMFLJPI+_6,LOGKYIGMHO+_6`  </sub>   |
-| <sub>rna-BU34_30345 </sub>   | <sub>23S ribosomal RNA  </sub>   | <sub>`LOGKYIGMHO-_7,RNWJMFLJPI-_7,MBKTHSSLPV-_7`  </sub>   |
-
-
-The fragmentation of the 23S rRNA annotation happens across three pancontigs: always the same ones and always the same order (after taking strand into account). Note that pancontig `LOGKYIGMHO` also contains 5S rRNA annotations. 
-
-We can also see this from a different perspective by looking in `pancontigs_as_regions.gff`:
+Inspecting the `eptA` gene, we find that it is now in a single pancontig:
 
 ```
-awk '$3=="rRNA" && $1=="LOGKYIGMHO"' pancontigs_as_regions.gff | head -n 2
-# LOGKYIGMHO  CP007265.1  rRNA    749 864 .   -   .   ID=rna-BU34_07275;Parent=gene-BU34_07275;gbkey=rRNA;locus_tag=BU34_07275;product=5S ribosomal RNA;pancontigID=LOGKYIGMHO;pancontigStrand=-;pancontigN=8
-# LOGKYIGMHO  CP007265.1  rRNA    1   666 .   -   .   ID=rna-BU34_07280-fragment3;parent=rna-BU34_07280;Parent=gene-BU34_07280;gbkey=rRNA;locus_tag=BU34_07280;product=23S ribosomal RNA;pancontigID=LOGKYIGMHO;pancontigStrand=-;pancontigN=8
-``` 
+NZ_CP103755.1   RefSeq  gene    4800275 4801918 .   +   .   ID=gene-NYO14_RS23905;Name=eptA;pancontigs=CPNIVTTNFW+_1
+```
+
+If we investigate feature fragmentation across the genome, we find it has slightly decreased to 4.9%. 
+
+
