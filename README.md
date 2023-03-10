@@ -17,13 +17,13 @@ conda activate pangraph_annotations
 ```
 # Add pancontigs as attributes to original gff
 # RECOMMENDED
-python add_pancontigs_to_gff.py --pangraph {pangraph.json} \
+python scripts/add_pancontigs_to_gff.py --pangraph {pangraph.json} \
     --input_gff {genome.gff} \
     --mode attributes \
     --output_gff {pancontigs_as_attributes.gff}
 # Or: add pancontigs as regions
 # WARNING: abuse of the GFF3 format!
-python add_pancontigs_to_gff.py --pangraph {pangraph.json}\
+python scripts/add_pancontigs_to_gff.py --pangraph {pangraph.json}\
     --input_gff {genome.gff} \
     --mode regions \
     --output_gff {pancontigs_as_regions.gff}
@@ -53,7 +53,7 @@ pangraph build --circular data/input_genomes.fa > data/pangraph.json
 Then, we combine the existing annotations for `NZ_CP103755.1` with this pangraph as follows:
 
 ```
-python add_pancontigs_to_gff.py --pangraph data/pangraph.json \
+python scripts/add_pancontigs_to_gff.py --pangraph data/pangraph.json \
     --input_gff data/NZ_CP103755.1.gff3 \
     --mode attributes \
     --output_gff output/pancontigs_as_attributes.gff
