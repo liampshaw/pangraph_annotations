@@ -1,0 +1,246 @@
+ABC transporter ATPase
+ATP-dependent helicase HrpB
+Ail/Lom family outer membrane beta-barrel protein
+Ail/Lom family outer membrane beta-barrel protein
+Ail/Lom family outer membrane beta-barrel protein
+Ail/Lom family protein
+AraC family transcriptional regulator
+AraC family transcriptional regulator
+BenE family transporter YdcO
+C40 family peptidase
+D-cysteine desulfhydrase
+DDE-type integrase/transposase/recombinase
+DDE-type integrase/transposase/recombinase
+DNA methyltransferase
+DNA topoisomerase IV subunit B
+DNA-binding transcriptional regulator DsdC
+DNA-binding transcriptional regulator DsdC
+DNA-packaging protein
+DUF2238 domain-containing protein
+DUF2645 family protein
+DUF4132 domain-containing protein
+DUF72 domain-containing protein
+DUF905 family protein
+DUF905 family protein
+DeoR/GlpR family DNA-binding transcription regulator
+Fe-S cluster assembly protein IscX
+GGDEF domain-containing protein
+GNAT family N-acetyltransferase
+GRP family sugar transporter
+GTPase family protein
+GTPase family protein
+GntP family transporter
+GntR family transcriptional regulator
+GspM family type II secretion system protein YghD
+HigA family addiction module antitoxin
+Hok/Gef family protein
+IS200/IS605 family transposase
+IS3 family transposase
+IS3-like element IS600 family transposase
+IS3-like element ISEc52 family transposase
+IS3-like element ISEc52 family transposase
+IS3-like element ISEc52 family transposase
+IS4 family transposase
+IS4 family transposase
+IS4 family transposase
+IS66 family transposase
+IS66 family transposase
+IS66 family transposase
+ISAs1-like element ISEc1 family transposase
+LysR family transcriptional regulator
+MHS family MFS transporter YdfJ
+N-acetylglucosamine-6-phosphate deacetylase
+NAD(P)/FAD-dependent oxidoreductase
+NADAR domain-containing protein
+NADH-dependent flavin oxidoreductase
+NfeD family protein
+P fimbria major subunit PapA
+P fimbria major subunit PapA
+PIG-L family deacetylase
+PTS N-acetylgalactosamine transporter subunit IIC
+PTS fructose transporter subunit IIBC
+PstS family phosphate ABC transporter substrate-binding protein
+Putrescine importer PuuP
+RNA 3'-terminal phosphate cyclase
+RNA-guided endonuclease TnpB family protein
+RadC family protein
+RadC family protein
+RadC family protein
+RadC family protein
+Rpn family recombination-promoting nuclease/putative transposase
+SASA family carbohydrate esterase
+SDR family oxidoreductase
+ShET2/EspL2 family type III secretion system effector toxin
+Smr/MutS family protein
+Tar ligand binding domain-containing protein
+TetR/AcrR family transcriptional regulator
+TonB system transport protein ExbD
+TonB-dependent receptor
+TonB-dependent receptor
+UDP-2%2C3-diacylglucosamine diphosphatase
+VWA domain-containing protein
+WGR and DUF4132 domain-containing protein
+YaiO family outer membrane beta-barrel protein
+YbeF family transcriptional regulator
+YdfR family protein
+YdfR family protein
+YfeK family protein
+YhcH/YjgK/YiaL family protein
+YhdT family protein
+YiiG family protein
+YiiX family permuted papain-like enzyme
+YtfJ family protein
+acetolactate synthase small subunit
+acetyltransferase
+aldo/keto reductase
+alkaline phosphatase isozyme conversion aminopeptidase
+alpha/beta hydrolase
+aminomethyl-transferring glycine dehydrogenase
+antirestriction protein
+antirestriction protein
+antirestriction protein
+antirestriction protein
+apolipoprotein N-acyltransferase
+aromatic amino acid transporter AroP
+autotransporter adhesin Ag43
+autotransporter outer membrane beta-barrel domain-containing protein
+autotransporter outer membrane beta-barrel domain-containing protein
+autotransporter outer membrane beta-barrel domain-containing protein
+bacteriophage antitermination protein Q
+bifunctional acid phosphatase/4-phytase
+catalase HPII
+citrate synthase
+citrate-proton symporter
+class I SAM-dependent methyltransferase
+co-chaperone DjlA
+copper-exporting P-type ATPase CopA
+cytoplasmic protein
+dTDP-4-dehydrorhamnose reductase
+deoxyribodipyrimidine photo-lyase
+dienelactone hydrolase family protein
+diguanylate cyclase
+dihydroneopterin triphosphate diphosphatase
+dihydroxyacetone kinase operon transcriptional regulator DhaR
+electron transport complex subunit RsxC
+endonuclease SmrB
+enterobactin non-ribosomal peptide synthetase EntF
+enterobactin synthase subunit EntD
+exodeoxyribonuclease I
+exodeoxyribonuclease VII large subunit
+exonuclease
+ferrichrome porin FhuA
+fimbrial biogenesis outer membrane usher protein
+flagellar biosynthesis protein FlhA
+flagellar motor stator protein MotA
+glutamate decarboxylase
+glutamate decarboxylase
+glutamine ABC transporter ATP-binding protein GlnQ
+glycosyltransferase family 9 protein
+helicase YjhR
+helix-turn-helix domain-containing protein
+helix-turn-helix domain-containing protein
+helix-turn-helix domain-containing protein
+host specificity protein J
+host specificity protein J
+hypothetical protein
+hypothetical protein
+hypothetical protein
+hypothetical protein
+hypothetical protein
+hypothetical protein
+hypothetical protein
+hypothetical protein
+hypothetical protein
+hypothetical protein
+hypothetical protein
+hypothetical protein
+hypothetical protein
+hypothetical protein
+hypothetical protein
+hypothetical protein
+hypothetical protein
+hypothetical protein
+hypothetical protein
+hypothetical protein
+hypothetical protein
+hypothetical protein
+integrase arm-type DNA-binding domain-containing protein
+integrase arm-type DNA-binding domain-containing protein
+inverse autotransporter adhesin FdeC
+lipid IV(A) 3-deoxy-D-manno-octulosonic acid transferase
+lipopolysaccharide biosynthesis protein
+long-chain fatty acid transporter FadL
+mechanosensitive channel MscK
+metallopeptidase YcaL
+methionine synthase
+molybdopterin-dependent oxidoreductase
+nickel-responsive transcriptional regulator NikR
+nucleoside/nucleotide kinase family protein
+peptide chain release factor H
+phage N-6-adenine-methyltransferase
+phage protein
+phage tail protein
+phage tail protein
+phage tail protein
+phage tail protein
+phage tail protein
+phage tail protein
+phage tail tape measure protein
+phage tail tape measure protein
+phage terminase large subunit family protein
+phenylacetic acid degradation protein PaaY
+phosphate-starvation-inducible protein PsiE
+phosphoethanolamine transferase
+phosphohistidine phosphatase SixA
+pleiotropic regulatory protein RsmS
+porin
+prophage tail fiber N-terminal domain-containing protein
+prophage tail fiber N-terminal domain-containing protein
+prophage tail fiber N-terminal domain-containing protein
+protein YghO
+protein-serine/threonine phosphatase PphC
+protoheme IX biogenesis protein HemY
+putative lateral flagellar export/assembly protein LafU
+putative quinol monooxygenase
+recombinase family protein
+recombinase family protein
+ribonucleoside hydrolase RihC
+selenium metabolism membrane protein YedE/FdhT
+septum formation protein
+sigma 54-dependent transcriptional regulator
+sigma factor-binding protein Crl
+site-specific DNA-methyltransferase
+tRNA 2-selenouridine(34) synthase MnmH
+tRNA dihydrouridine(20/20a) synthase DusA
+tail assembly protein
+tail assembly protein
+tail fiber assembly protein
+tail fiber assembly protein
+tail fiber assembly protein
+tail fiber assembly protein
+tail fiber assembly protein
+tail fiber protein
+tail fiber protein
+threonine ammonia-lyase%2C biosynthetic
+threonine export protein RhtC
+transcriptional activator NhaR
+transposase
+transposase domain-containing protein
+type 1 fimbria switch DNA invertase FimB
+type II secretion system protein GspL
+type II toxin-antitoxin system toxin acetyltransferase AtaT
+type VI secretion protein VasK
+type VI secretion protein VasK
+uridine phosphorylase
+zinc-ribbon domain-containing protein
+zinc-ribbon domain-containing protein
+2%2C3-diketo-L-gulonate transporter substrate-binding protein YiaO
+2-amino-4-hydroxy-6-hydroxymethyldihydropteridine diphosphokinase
+2-oxoglutaramate amidase
+3%2C4-dihydroxy-2-butanone-4-phosphate synthase
+3-isopropylmalate dehydratase small subunit
+3-phosphoshikimate 1-carboxyvinyltransferase
+4Fe-4S mono-cluster protein YjdI
+16S rRNA (cytidine(1402)-2'-O)-methyltransferase
+23S rRNA (uracil(747)-C(5))-methyltransferase RlmC
+23S rRNA pseudouridine(2604) synthase RluF

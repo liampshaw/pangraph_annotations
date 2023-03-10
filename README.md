@@ -48,8 +48,6 @@ pangraph build --circular data/input_genomes.fa > data/pangraph.json
 # should take several minutes on a typical laptop
 ```
 
-### Understanding the output
-
 Then, we combine the existing annotations for `NZ_CP103755.1` with this pangraph as follows:
 
 ```
@@ -61,6 +59,8 @@ python scripts/add_pancontigs_to_gff.py --pangraph data/pangraph.json \
 
 This adds pancontig information as an attribute to each annotated feature. We can also do the same command using `--mode regions --output_gff output/pancontigs_as_regions.gff`. 
 
+### Understanding the output
+
 For a single feature, the output gff will look something like the following:
 
 In `output/pancontigs_as_attributes.gff`:
@@ -69,7 +69,7 @@ In `output/pancontigs_as_attributes.gff`:
 NZ_CP103755.1   RefSeq  gene    1409    2509    .       +       .       ID=gene-NYO14_RS00010;Name=dnaN;pancontigs=FUZWWRHODH-_1
 ```
 
-Pancontig information is stored as an attribute `pancontigs` which is a comma-separated of pancontig ID (`FUZWWRHODH`), strand (`-`, negative), and pancontig occurrence (`1` - some pancontigs may occur multiple times within a genome).
+Pancontig information is stored as an attribute `pancontigs` which is a comma-separated of pancontig ID (`FUZWWRHODH`), strand (`-`, negative), and pancontig occurrence (`1` - some pancontigs may occur multiple times within a genome). Pancontig IDs are generated randomly, so if you run it yourself, pancontig IDs will be different.
 
 Alternatively, the same feature in `output/pancontigs_as_regions.gff` will look the following:
 
@@ -86,7 +86,7 @@ Bacterial genomes can contain multiple copies of genes. For example, *E. coli* t
 If we search for 16 rRNA we can confirm that this is the case:
 
 ```
-awk '$3=="rRNA"' output/pancontigs_as_attributes.gff | grep "16S" | awk -F '\t' '{print $4,$5,$9}' | sed -e 's/ID.*pancontigs=//g'
+awk -F '\t' '$3=="rRNA"' output/pancontigs_as_attributes.gff | grep "16S" | awk -F '\t' '{print $4,$5,$9}' | sed -e 's/ID.*pancontigs=//g'
 # 454337 455878 BFXNRUIRZJ+_6
 # 1307507 1309048 BFXNRUIRZJ+_7
 # 4069015 4070556 BFXNRUIRZJ-_1
@@ -104,7 +104,7 @@ There are 7 16S rRNA genes and they occur on 7 instances of the `BFXNRUIRZJ` pan
 We can use the output files to work out things like how many gene features are in sequence regions fragmented across multiple pancontigs. (This uses the fact that the `pancontigs` attribute is a comma-separated list and counts up how many items are in the list.)
 
 ```
-awk '$3=="gene"' output/pancontigs_as_attributes.gff | sed -e 's/.*pancontigs=//g' | awk -F "," ' { print NF } ' | sort -n | uniq -c 
+awk -F '\t' '$3=="gene"' output/pancontigs_as_attributes.gff | sed -e 's/.*pancontigs=//g' | awk -F "," ' { print NF } ' | sort -n | uniq -c 
 #   4742 1
 #    251 2
 #     27 3
@@ -130,12 +130,12 @@ Here we have coloured nodes (pancontigs) by depth, so that red pancontigs appear
 
 ![](images/bandage_screenshot.png)
 
-The `eptA` gene spans across this region, leading to fragmentation when mapped onto the pangraph.
+The `eptA` gene spans across this region, leading to fragmentation when mapped onto the pangraph. 
 
 
-### Possible reasons for fragmentation
+### Reducing fragmentation
 
-The difference in genome structure *within* a gene might be caused by sequence divergence leading to splitting of pancontigs. In fact, inspecting pancontigs `TMJJAHMODI` and `SIPWJSWAVJ`, both are 211bp long. 
+A difference in genome structure *within* a gene might be caused by sequence divergence leading to splitting of pancontigs. In fact, inspecting pancontigs `TMJJAHMODI` and `SIPWJSWAVJ`, both are 211bp long, which suggests this is the case. 
 
 If we rerun pangraph with increased divergence tolerance (`-s` parameter), we may reduce fragmentation:
 
@@ -143,7 +143,7 @@ If we rerun pangraph with increased divergence tolerance (`-s` parameter), we ma
 # Build a new pangraph
 pangraph build --circular data/input_genomes.fa -s 20 > data/pangraph-s20.json
 # Add features to the new pangraph
-python add_pancontigs_to_gff.py --input_gff data/NZ_CP103755.1.gff3 --pangraph data/pangraph-s20.json --output_gff output/pancontigs_as_attributes-s20.gff --mode attributes
+python scripts/add_pancontigs_to_gff.py --input_gff data/NZ_CP103755.1.gff3 --pangraph data/pangraph-s20.json --output_gff output/pancontigs_as_attributes-s20.gff --mode attributes
 ```
 
 Inspecting the `eptA` gene, we find that it is now in a single pancontig:
@@ -152,8 +152,49 @@ Inspecting the `eptA` gene, we find that it is now in a single pancontig:
 NZ_CP103755.1   RefSeq  gene    4800275 4801918 .   +   .   ID=gene-NYO14_RS23905;Name=eptA;pancontigs=CPNIVTTNFW+_1
 ```
 
-If we investigate feature fragmentation across the genome, we find it has slightly decreased to 4.9%. 
+If we investigate feature fragmentation across the genome, we find it has decreased to 4.9%. 
 
-(TO ADD: using mmseqs2)
+We could also try using a more sensitive alignment method. We can construct the pangraph with `mmseqs2` for alignment instead:
 
+```
+pangraph build --circular data/input_genomes.fa -k mmseqs  > data/pangraph-mmseqs.json
+# N.B. will take ~10x as long to run as default parameters 
+# Add features
+python scripts/add_pancontigs_to_gff.py --input_gff data/NZ_CP103755.1.gff3 --pangraph data/pangraph-mmseqs.json --output_gff output/pancontigs_as_attributes-mmseqs.gff --mode attributes 
+```
 
+The proportion of genes that are fragmented now goes down to 4.0%. 
+
+The remaining fragmentation can be due to genes that have sections duplicated elsewhere. Frequently these can be associated with active genomic movement. We can check this by looking at the gene products:
+
+```
+# get locations of fragmented features
+awk -F '\t' '{print $9}'  output/pancontigs_as_attributes-mmseqs.gff \
+ | sed -e 's/.*pancontigs=//g' \
+ | grep "," -n | cut -d ':' -f 1 > output/fragment.lines
+# use these line locations to get products of fragmented CDS
+awk 'NR==FNR{linesToPrint[$0];next}   
+     FNR in linesToPrint' \
+     fragment.lines \
+     output/pancontigs_as_attributes-mmseqs.gff \
+     | awk -F '\t' '$3=="CDS"' | sed -e 's/.*product=//g' | sed -e 's/;.*//g' \
+     | sort -n > output/mmseqs_fragmented_CDS_products.txt
+```
+
+Investigating these, we can see that the most common known protein products appear to be involved with molecular entities like transposases or prophage.
+
+```
+uniq -c output/mmseqs_fragmented_CDS_products.txt| sort -n -r | head
+#     22 hypothetical protein
+#      6 phage tail protein
+#      5 tail fiber assembly protein
+#      4 antirestriction protein
+#      4 RadC family protein
+#      3 prophage tail fiber N-terminal domain-containing protein
+#      3 helix-turn-helix domain-containing protein
+#      3 autotransporter outer membrane beta-barrel domain-containing #protein
+#      3 IS66 family transposase
+#      3 IS4 family transposase
+```
+
+The incidence of "transposase" in fragmented CDS annotations is 18/246 (7.3%) compared to 111/5140 (2.2%) in all CDS annotations. For "phage" it is 6.1% vs. 2.3%. 
