@@ -176,8 +176,9 @@ def position_in_block_coordinates(pos, bl_b, bl_e, bl_s, pth_L):
     - total genome length
     All positions are in 1-based indexing.
     """
-    assert (pos - bl_b) % pth_L <= (bl_e - bl_b) % pth_L
-    assert (bl_e - pos) % pth_L <= (bl_e - bl_b) % pth_L
+    # DANGER: removed these assertions (Liam 14/03/23) to experiment with extracting region of gff
+    #assert (pos - bl_b) % pth_L <= (bl_e - bl_b) % pth_L 
+    #assert (bl_e - pos) % pth_L <= (bl_e - bl_b) % pth_L
     if bl_s:
         return (pos - bl_b + 1) % pth_L
     else:

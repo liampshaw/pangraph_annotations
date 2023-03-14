@@ -13,6 +13,8 @@ def get_options():
         help="Input pangraph (JSON)", required=True)
     parser.add_argument("--input_gff", 
         help="Annotations (GFF)", required=True)
+    parser.add_argument("--pangraph_coords", 
+        help="Coordinates of the GFF genome region used in the pangraph: X-Y e.g. 20123-25462", required=False, default="")
     parser.add_argument("--output_gff", 
         help="Output gff with pancontigs as attributes (GFF)", required=False, default="")
     parser.add_argument("--mode", choices=["attributes", "regions"],  
@@ -35,11 +37,11 @@ class gffEntry:
 
 class GFF:
     """A data holder for gff."""
-    def __init__(self, gff_file_or_list):
+    def __init__(self, gff_file_or_list, region=""):
         if type(gff_file_or_list) is list:
             self.gff = gff_file_or_list
         elif type(gff_file_or_list) is str:
-            self.gff = load_gff(gff_file_or_list)    
+            self.gff = load_gff(gff_file_or_list, region)    
     def gff_to_df(self):
         """returns a gff as pandas dataframe"""
         gff_df = pd.DataFrame([vars(x) for x in self.gff])
@@ -52,7 +54,7 @@ class GraphGFF:
         self.pangraph = pangraph_interface.Pangraph.load_json(pangraph_file)
         # Locator
         loc = pangraph_locator.Locator(self.pangraph)
-        # Get map of the pangraph
+        # Get map of the pangraph 
         self.pangraph_map = pangraph_locator.build_map(self.pangraph.paths, self.pangraph.blocks)
         # Add pancontig info onto the gff
         self.new_gff = add_pancontigs_to_gff(self.pangraph_map, self.original_gff.gff)
@@ -71,7 +73,7 @@ def file_is_gff(gff_file):
         else:
             return(True)
 
-def load_gff(gff_file):
+def load_gff(gff_file, region):
     """Loads in a gff file"""
     if file_is_gff(gff_file):
         gff_entry_list = []
@@ -84,7 +86,12 @@ def load_gff(gff_file):
                 else:
                     line = line.strip("\n").split("\t")
                     if len(line)==9:
-                        gff_entry_list.append(line)
+                        if region=="":
+                            gff_entry_list.append(line)
+                        else:
+                            if (int(line[3])>region[0] and int(line[3])<region[1]) and \
+                            (int(line[4])>region[0] and int(line[4])<region[1]):
+                                gff_entry_list.append(line)
     gff = [gffEntry(x) for x in gff_entry_list]
     return(gff)
 
@@ -130,6 +137,7 @@ def add_pancontigs_to_gff(pangraph_map, original_gff):
     new_gff_list = []
     for gff_entry in original_gff:
         strain = gff_entry.seqid
+        print(gff_entry.start, gff_entry.end)
         gff_partials = add_pancontig_info(pangraph_map, strain, gff_entry)
         for gff_partial in gff_partials:
             new_gff_list.append(gff_partial)
@@ -216,8 +224,14 @@ def write_gff(gff_list, gff_file, header_string="##gff-version 3\n"):
 def main():
     args = get_options()
     additional_header_string = "#!pancontig information relative to "+str(args.pangraph)+" added on "+datetime.now().strftime("%m/%d/%Y, %H:%M:%S")+"\n"
+
     gff_header_string = gff_header(args.input_gff)+additional_header_string
-    glued_gff = GraphGFF(args.pangraph, args.input_gff)
+
+    region = [int(x) for x in args.pangraph_coords.split("-")] if args.pangraph_coords!="" else ""
+    tmp_gff_file = "tmp.gff"
+    write_gff(GFF(load_gff(args.input_gff, region)).gff_to_df().values.tolist(), tmp_gff_file)
+    glued_gff = GraphGFF(args.pangraph, tmp_gff_file)
+    print(glued_gff.new_gff.gff_to_df())
     if args.mode=="attributes":
         output_gff_list = glued_gff.new_gff.gff_to_df().values.tolist()
     elif args.mode=="regions":
