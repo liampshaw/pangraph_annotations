@@ -89,8 +89,10 @@ def load_gff(gff_file, region):
                         if region=="":
                             gff_entry_list.append(line)
                         else:
-                            if (int(line[3])>region[0] and int(line[3])<region[1]) and \
-                            (int(line[4])>region[0] and int(line[4])<region[1]):
+                            if (int(line[3])>region[0] and int(line[3])<region[1]) or \
+                            (int(line[4])>region[0] and int(line[4])<region[1]): # this keeps features that have at least some of the feature within region
+                                line[3] = int(line[3])-region[0] # convert coordinates to pangraph
+                                line[4] = int(line[4])-region[0]
                                 gff_entry_list.append(line)
     gff = [gffEntry(x) for x in gff_entry_list]
     return(gff)
@@ -137,7 +139,6 @@ def add_pancontigs_to_gff(pangraph_map, original_gff):
     new_gff_list = []
     for gff_entry in original_gff:
         strain = gff_entry.seqid
-        print(gff_entry.start, gff_entry.end)
         gff_partials = add_pancontig_info(pangraph_map, strain, gff_entry)
         for gff_partial in gff_partials:
             new_gff_list.append(gff_partial)
@@ -231,7 +232,6 @@ def main():
     tmp_gff_file = "tmp.gff"
     write_gff(GFF(load_gff(args.input_gff, region)).gff_to_df().values.tolist(), tmp_gff_file)
     glued_gff = GraphGFF(args.pangraph, tmp_gff_file)
-    print(glued_gff.new_gff.gff_to_df())
     if args.mode=="attributes":
         output_gff_list = glued_gff.new_gff.gff_to_df().values.tolist()
     elif args.mode=="regions":
