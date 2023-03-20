@@ -112,13 +112,13 @@ class PathMap:
         wrap_2 = idx_e == idx_b
         strand = self.occs[idx_b][2]
         wrap_2 &= (strand & (pe < pb)) | ((not strand) & (pe > pb))
-        if wrap_2:
-            message = "warning: interval starts and ends in the same block"
-            message += " but it wraps around the genome.\n"
-            message += f"strand = {strand}, beg = {pos_b}, end = {pos_e},\n"
-            message += f"block beg = {self.ids[idx_b]}, block end = {self.ids[idx_e]}"
-            message += f"beg pos in block = {pb}, end pos in block = {pe}."
-            print(message)
+        #if wrap_2:
+        #    message = "warning: interval starts and ends in the same block"
+        #    message += " but it wraps around the genome.\n"
+        #    message += f"strand = {strand}, beg = {pos_b}, end = {pos_e},\n"
+        #    message += f"block beg = {self.ids[idx_b]}, block end = {self.ids[idx_e]}"
+        #    message += f"beg pos in block = {pb}, end pos in block = {pe}."
+        #    print(message)
         if wrap_1 | wrap_2:
             idxs = np.arange(idx_b, idx_e + self.N + 1) % self.N
         else:
