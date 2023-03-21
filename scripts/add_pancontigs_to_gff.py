@@ -225,10 +225,12 @@ def write_gff(gff_list, gff_file, header_string="##gff-version 3\n"):
 def main():
     args = get_options()
     additional_header_string = "#!pancontig information relative to "+str(args.pangraph)+" added on "+datetime.now().strftime("%m/%d/%Y, %H:%M:%S")+"\n"
-
+    if args.pangraph_coords!="":
+        additional_header_string += "#!region "+str(args.pangraph_coords)+" extracted from original gff\n"
     gff_header_string = gff_header(args.input_gff)+additional_header_string
 
     region = [int(x) for x in args.pangraph_coords.split("-")] if args.pangraph_coords!="" else ""
+
     tmp_gff_file = "tmp.gff"
     write_gff(GFF(load_gff(args.input_gff, region)).gff_to_df().values.tolist(), tmp_gff_file)
     glued_gff = GraphGFF(args.pangraph, tmp_gff_file)
